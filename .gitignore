@@ -1,2 +1,5 @@
 __tests
 __pycache__
+
+trainmaps/*/
+trainmaps/!template/

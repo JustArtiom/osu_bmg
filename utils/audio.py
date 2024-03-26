@@ -1,8 +1,8 @@
-import librosa
-import librosa.display
 import matplotlib.pyplot as plt
-import numpy as np
 import tensorflow as tf
+import librosa.display
+import numpy as np
+import librosa
 
 
 def waveform_to_spectrogram(waveform: np.ndarray, frame_length: int, frame_step: int) -> np.ndarray:
