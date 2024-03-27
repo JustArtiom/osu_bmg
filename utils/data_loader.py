@@ -15,7 +15,8 @@ def load_training_data_paths(train_path: str) -> list:
         list: A list of lists containing paths to audio file and their corresponding osu file
     """
 
-    tdata_paths = []
+    audios = []
+    maps = []
 
     for folder in os.listdir(train_path):
         work_dir = os.path.join(train_path, folder)
@@ -41,9 +42,7 @@ def load_training_data_paths(train_path: str) -> list:
         else: audio_file = audio_files[0]
 
         for osu_file in osu_files:
-            tdata_paths.append([
-                os.path.join(work_dir, audio_file), 
-                os.path.join(work_dir, osu_file)
-            ])
+            audios.append(os.path.join(work_dir, audio_file))
+            maps.append(os.path.join(work_dir, osu_file))
 
-    return tdata_paths
+    return audios, maps

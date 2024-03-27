@@ -27,3 +27,21 @@ def tets_osu_file_parser():
     print(parsed.hitobjects)
 
 # tets_osu_file_parser()
+
+
+def test_get_latest_timing_point():
+    example_path = "trainmaps/template/template.osu"
+    parsed = osu.parse_osu_file(example_path)
+    print(osu.get_latest_timing_point(parsed.timingpoints, 60000))
+
+# test_get_latest_timing_point()
+
+def test_osu_slider_distance_to_time():
+    example_path = "trainmaps/template/template.osu"
+    parsed = osu.parse_osu_file(example_path)
+
+    for t in osu.replace_slider_length_with_time(parsed):
+        print(t)
+
+
+# test_osu_slider_distance_to_time()
