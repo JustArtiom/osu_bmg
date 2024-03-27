@@ -14,7 +14,7 @@ frame_step        = 128              # For spectrogram generation
 
 
 # Loading paths for training data
-print("\nLoading Data set paths\n")
+print("\nLoading Data set paths")
 train_pack = data_loader.load_training_data_paths(training_path)
 for train_paths in train_pack:
     for train_path in train_paths:
