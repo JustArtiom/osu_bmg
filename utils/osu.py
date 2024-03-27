@@ -1,13 +1,10 @@
-import os
-
-
 class OsuParsedData:
-    general = {}
-    metadata = {}
-    difficulty = {}
-    timingpoints = []
-    hitobjects = []
-    pass
+    def __init__(self):
+        self.general = {}
+        self.metadata = {}
+        self.difficulty = {}
+        self.timingpoints = []
+        self.hitobjects = []
 
 
 def try_to_nr(nr):
@@ -42,7 +39,7 @@ def parse_osu_file(osu_file_path: str) -> OsuParsedData:
     parsed_data = OsuParsedData()
     current_header = ""
 
-    with open(osu_file_path, 'r') as file:
+    with open(osu_file_path, 'r', encoding='utf-8') as file:
         for line in file:
             line = line.strip()
             if not line or line.startswith("//"):
@@ -67,3 +64,14 @@ def parse_osu_file(osu_file_path: str) -> OsuParsedData:
     return parsed_data
 
 
+def timing_to_bpm(timing_value: float) -> float:
+    """
+    Convert timing value to BPM.
+
+    Args:
+        timing_value (float): The timing value in milliseconds.
+
+    Returns:
+        float: The corresponding BPM.
+    """
+    return round(60000 / timing_value, 2)

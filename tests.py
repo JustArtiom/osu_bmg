@@ -26,4 +26,4 @@ def tets_osu_file_parser():
     parsed = osu.parse_osu_file(example_path)
     print(parsed.hitobjects)
 
-tets_osu_file_parser()
+# tets_osu_file_parser()
