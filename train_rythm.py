@@ -9,7 +9,7 @@ import math
 
 # Settings
 training_path     = "./trainmaps"    # Training data path
-signature         = 1/4              # How many ticks in a beat
+divisor           = 1/4              # How many ticks in a beat
 normalized_bpm    = 180              # Like an average BPM for normalization
 
 frame_length      = 256              # For spectrogram generation
@@ -85,23 +85,38 @@ for i, audiof_path in enumerate(audios):
     audios[i] = norm_waveform
     srs[i] = sr
 
+
+hitobject_events = []
+
+# Convert osu maps object into an array of hitobject events
 for i, osu_map in enumerate(maps):
-    mini_beats = [osu_map.general["offset"]]
-    in_between = 60 / normalized_bpm * 1000 * signature
-    while mini_beats[-1] < len(audios[i]) / srs[i] * 1000:
-        mini_beats.append(round(mini_beats[-1] + in_between, 10))
-    if i == 0:
-        print(mini_beats)
-        found = 0
-        notFound = 0
-        for ho in osu_map.hitobjects:
-            if ho[2] in [math.floor(i) for i in mini_beats]:
-                print(f"Found: {ho[2]}")
-                found += 1
-            else:
-                print(f"Not Found: {ho[2]}")
-                notFound += 1
-        print(found, notFound)
+    beats, beat_gap = audio.get_beats(
+        bpm=osu_map.general["norm_bpm"],
+        offset=osu_map.general["offset"],
+        divisor=divisor,
+        max_len_ms=(len(audios[i]) / srs[i] * 1000)
+    )
+
+    if i == 0: print(osu.get_beat_events(osu_map.hitobjects, beats, events))
+
+
+
+    # mini_beats = [osu_map.general["offset"]]
+    # in_between = 60 / normalized_bpm * 1000 * divisor
+    # while mini_beats[-1] < len(audios[i]) / srs[i] * 1000:
+    #     mini_beats.append(round(mini_beats[-1] + in_between, 10))
+    # if i == 0:
+    #     print(mini_beats)
+    #     found = 0
+    #     notFound = 0
+    #     for ho in osu_map.hitobjects:
+    #         if ho[2] in [math.floor(i) for i in mini_beats]:
+    #             print(f"Found: {ho[2]}")
+    #             found += 1
+    #         else:
+    #             print(f"Not Found: {ho[2]}")
+    #             notFound += 1
+    #     print(found, notFound)
 
     
 

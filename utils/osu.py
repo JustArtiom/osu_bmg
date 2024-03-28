@@ -166,9 +166,35 @@ def normalise_bpm(timingpoints: list, hitobjects: list, from_bpm: float, to_bpm:
     return timingpoints_updated, hitobjects_updated
 
 
+def find_avg_timing_index(times, tp):
+    for i, time in enumerate(times):
+        if time == tp or time == tp - 1 or time == tp + 1:
+            return i
+    return None
 
 
-def are_hitobjects_in_divisor(parsed_osu: OsuParsedData) -> bool:
+def get_beat_events(hitobjects: list, beats: list, event_dict: dict) -> list:
+    events = []
+    # 2D array with shape (None, 3) where [HitObject event, time start, time end]
+    ho_with_events = []
 
+    for ho in hitobjects:
+        if ho[2] == 3: # If spinner
+            ho_with_events.append([event_dict["spinner"], ho[2], ho[5]])
+            continue
+        if len(ho) <= 8: # Circle
+            ho_with_events.append([event_dict["circle"], ho[2], None])
+            continue
+        else: # Slider
+            ho_with_events.append([event_dict["slider"], ho[2], ho[2]+ho[7]])
+            continue
+    
 
-    return True
+    # for beat in beats:
+    #     hitobj_index = find_avg_timing_index(ho_times, beat) 
+    #     hitobj_slider_index = find_avg_timing_index(ho_slider_end_times, beat)
+
+    #     if hitobj_index or hitobj_slider_index: 
+    #         # print(beat, hitobj_index, hitobj_slider_index)
+    #         pass
+    return events
