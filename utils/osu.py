@@ -1,4 +1,5 @@
 import math
+from . import data_loader
 
 class OsuParsedData:
     def __init__(self):
@@ -153,13 +154,13 @@ def normalise_bpm(timingpoints: list, hitobjects: list, from_bpm: float, to_bpm:
     hitobjects_updated = []
 
     for tp in timingpoints:
-        tp[0] = int(tp[0] * bpm_multiplier)
+        tp[0] = math.floor(tp[0] * bpm_multiplier)
         if tp[6] == 1: # For uninhired points
             tp[1] = 1 / to_bpm * 1000 * 60 
         timingpoints_updated.append(tp)
 
     for ho in hitobjects:
-        ho[2] = int(ho[2] * bpm_multiplier)
+        ho[2] = math.floor(ho[2] * bpm_multiplier)
         hitobjects_updated.append(ho)
 
     return timingpoints_updated, hitobjects_updated
